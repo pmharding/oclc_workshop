@@ -1,5 +1,5 @@
 # oclc_workshop
-This repository contains two simple Java applications.   
+This repository contains two simple Java applications to demonstrate simple RNI-ES index and querying.   
 
 # es_ingest_tool
 This application is for loading and transforming data into Elasticsearch using the Rosette Name Indexer plugin.
