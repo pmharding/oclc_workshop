@@ -1,12 +1,12 @@
 # oclc_workshop
 This repository contains two simple Java applications to demonstrate simple RNI-ES index and querying.   
+Both applications will require the following dependencies (note the version of ES and the RNI plugin must match):
+  - elasticsearch <correct_version>
+  - elasticsearch-rest-client <correct_version>
+  - elasticsearch-rest-high-level-client <correct_version>
 
 # es_ingest_tool
 This application is for loading and transforming data into Elasticsearch using the Rosette Name Indexer plugin.
-This project has the following project dependencies:
-  - elasticsearch 7.4.2
-  - elasticsearch-rest-client 7.4.2
-  - elasticsearch-rest-high-level-client 7.4.2
 
 To execute the application: Run Application.java
 
