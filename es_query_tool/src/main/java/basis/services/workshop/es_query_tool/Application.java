@@ -1,19 +1,19 @@
-package basis.services.workshop.es_ingest_tool;
+package basis.services.workshop.es_query_tool;
 
 /**
- * This is the starting point for the application
+ * This application is entry point into the application
  * 
  * @author pharding
  */
 public class Application {
-
+    
     public Application() {
         
     }
     
     /**
      * Main method that calls and executes the pipeline for processing and 
-     * indexing data
+     * querying data
      * 
      * @param args 
      */
