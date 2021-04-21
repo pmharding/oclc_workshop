@@ -1,7 +1,7 @@
 # oclc_workshop
 This repository contains two simple Java applications to demonstrate simple RNI-ES index and querying.   
 Both applications will require the following dependencies (note the version of ES and the RNI plugin must match):
-  - elasticsearch <version>
+  - elasticsearch <version_num>
   - elasticsearch-rest-client <version>
   - elasticsearch-rest-high-level-client <version>
 
@@ -16,7 +16,7 @@ the results to standard output.
 
 To build and run this application you need to add the follow local JARS included the RNI plugin.
 First, create a local lib folder directory with the following JARs(not the version of the JARs might be different):
-  - rni-es-<version>.jar
+  - rni-es-[version].jar
   - rni-rnt-bundle-<version>.jar
   - btcommon-api-<version>.ja
   - btcommon-lib-<version>.jar
