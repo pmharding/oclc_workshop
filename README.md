@@ -28,7 +28,7 @@ mvn install:install-file -Dfile=<path_to_lib_folder>/rni-es-7.4.2.0.jar -DgroupI
 
 mvn install:install-file -Dfile=<path_to_lib_folder>/rni-rnt-bundle-7.30.1.c62.0.jar -DgroupId=oclc.workshop -DartifactId=rni-rnt-bundle -Dversion=1.0 -Dpackaging=jar
 
-mvn install:install-file -Dfile=/<path_to_lib_folder>/btcommon-api-37.0.1.jar -DgroupId=oclc.workshop -DartifactId=btcommon-api -Dversion=1.0 -Dpackaging=jar
+mvn install:install-file -Dfile=<path_to_lib_folder>/btcommon-api-37.0.1.jar -DgroupId=oclc.workshop -DartifactId=btcommon-api -Dversion=1.0 -Dpackaging=jar
 
 mvn install:install-file -Dfile=<path_to_lib_folder>/btcommon-lib-38.0.2.jar -DgroupId=oclc.workshop -DartifactId=btcommon-lib -Dversion=1.0 -Dpackaging=jar
 
