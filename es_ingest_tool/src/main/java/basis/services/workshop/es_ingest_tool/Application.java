@@ -19,7 +19,8 @@ public class Application {
      */
     public static void main(String[] args) {
         Pipeline pipeline = new Pipeline();
-        pipeline.execute();
+        //pipeline.execute();
+        pipeline.executeNested();
         System.exit(0);
     }
 }

@@ -40,11 +40,26 @@ public class Pipeline {
         }
     }
 
+    public void executeNested() {
+        try {
+            //Get data
+            String filePath = System.getProperty("user.dir") + "/data/MOCK_DATA.json";
+            Stream<String> stream = Files.lines(Paths.get(filePath));
+
+            //Process the dataset
+            stream.forEach(line -> indexNestedRecord(line));
+            stream.close();
+            System.out.println("INDEXING COMPLETE");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
-     * This method takes in a line from a CSV file and transforms it into
-     * an ES document which is then indexed into Elasticsearch
-     * 
-     * @param line 
+     * This method takes in a line from a CSV file and transforms it into an ES
+     * document which is then indexed into Elasticsearch
+     *
+     * @param line
      */
     private void indexRecord(String line) {
         //Transform the data into an ES document
@@ -58,6 +73,19 @@ public class Pipeline {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void indexNestedRecord(String line) {
+        try {
+            XContentBuilder esDocument = DataTransform.transformNested(line);
+
+            if (esDocument != null) {
+                //Index the ES document
+                es.singleIndex(esDocument);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }
