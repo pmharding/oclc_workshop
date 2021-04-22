@@ -1,19 +1,11 @@
 package basis.services.workshop.es_ingest_tool;
 
-import com.basistech.rni.match.MatchScorer;
-import com.basistech.rni.match.Name;
-import com.basistech.rni.match.NameBuilder;
-import com.basistech.rni.match.NameMatchingException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * This class transforms an example PERSON record/identity into a
@@ -74,22 +66,6 @@ public class DataTransform {
         return esDoc;
     }
 
-    public static double compareNames(String n1, String n2) {
-        Name name1 = NameBuilder.data(n1)
-                .build();
-        Name name2 = NameBuilder.data(n2)
-                .build();
-
-        MatchScorer ms = new MatchScorer();
-        double score = 0.0;
-        try {
-            score = ms.score(name1, name2);
-        } catch (NameMatchingException ex) {
-            ex.printStackTrace();
-        }
-
-        return score;
-    }
 
     public static XContentBuilder transformNested(String jsonData) throws Exception {
         XContentBuilder esDoc = null;
