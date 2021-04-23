@@ -7,7 +7,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.AbstractQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.rescore.QueryRescorerBuilder;
 
@@ -59,11 +59,12 @@ public class ElasticsearchManager {
      * @param rescorer
      * @return 
      */
-    public SearchResponse singleQuery(MatchQueryBuilder query, QueryRescorerBuilder rescorer) {
+    public SearchResponse singleQuery(AbstractQueryBuilder query, QueryRescorerBuilder rescorer) {
         SearchRequest searchRequest = new SearchRequest(index);
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(query)
             .addRescorer(rescorer)
+            .explain(Boolean.TRUE)
             .size(WINDOW);
         
         searchRequest.source(sourceBuilder);

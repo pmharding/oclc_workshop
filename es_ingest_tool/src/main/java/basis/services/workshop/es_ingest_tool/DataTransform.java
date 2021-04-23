@@ -83,7 +83,6 @@ public class DataTransform {
             for (int i=0; i<names.size();i++) {
                 JSONObject nameObj = (JSONObject)names.get(i);
                 String n = (String)nameObj.get("name");
-                //esDoc.startObject().field("name", n).endObject();
                  esDoc.startObject()
                     .startObject("name")
                         .field("data", n)

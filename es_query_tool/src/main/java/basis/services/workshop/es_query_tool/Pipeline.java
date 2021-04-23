@@ -2,11 +2,13 @@ package basis.services.workshop.es_query_tool;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.MatchQueryBuilder;
+import org.elasticsearch.index.query.AbstractQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.rescore.QueryRescorerBuilder;
 
@@ -37,7 +39,7 @@ public class Pipeline {
             Stream<String> stream = Files.lines(Paths.get(filePath)).skip(1);   //skip header
 
             //Process the dataset
-            stream.forEach(line -> search(line));
+            stream.forEach(line -> nestedSearch(line));
             stream.close();
             System.out.println("QUERYING COMPLETE");
         } catch (Exception ex) {
@@ -54,11 +56,25 @@ public class Pipeline {
     private void search(String line) {
         
         //Transform the data into an ES query
-        MatchQueryBuilder query = DataTransform.createQuery(line);
+        AbstractQueryBuilder query = DataTransform.createQuery(line);
         QueryRescorerBuilder rescorer = DataTransform.createRescorer(line);
         
         SearchResponse response = es.singleQuery(query, rescorer);
         displayResults(line, response);
+    }
+    
+    /**
+     * This search searches an index contain a ES document contain a list of names
+     * 
+     * @param line 
+     */
+    private void nestedSearch(String line) {
+        AbstractQueryBuilder query = DataTransform.createNestedQuery(line);
+        QueryRescorerBuilder rescorer = DataTransform.createNestedRescorer(line);
+        
+        SearchResponse response = es.singleQuery(query, rescorer);
+        displayResults(line, response);
+        
     }
     
     /**
@@ -75,10 +91,44 @@ public class Pipeline {
             
             //Get the values from the hit
             Map<String, Object> source = hit.getSourceAsMap();
-            Map rniMap = (HashMap) source.get("name");
-            String indexedName = (String) rniMap.get("data");
+            String indexedName = getNestedObject(source);
             
             System.out.println("SEARCHED TERMS: " + line + " MATCH RECORD: " + indexedName + " RNI SCORE: " + rni_score);
         }
+    }
+    
+    /**
+     * Prints out the hit from flat data structure
+     * 
+     * @param source
+     * @return 
+     */
+    private String getFlatObject(Map<String, Object> source) {
+            Map rniMap = (HashMap) source.get("name");
+            String indexedName = (String) rniMap.get("data");
+            
+            return indexedName;
+    }
+    
+    /**
+     * Prints out the hit from a nested data structure
+     * @param source
+     * @return 
+     */
+    private String getNestedObject(Map<String, Object> source) {
+        ArrayList nameList = (ArrayList)source.get("names");
+        StringBuilder all_names = new StringBuilder();
+        for(int i = 0; i < nameList.size(); i++) {
+            Map map = (HashMap) nameList.get(i);
+            Set<String> keys = map.keySet();
+            for(String k : keys) {
+                Map nameMap = (HashMap) map.get(k);
+                String indexedName = (String) nameMap.get("data");
+                all_names.append(indexedName);
+                all_names.append("||");
+            }  
+        }
+                
+        return all_names.toString();
     }
 }
